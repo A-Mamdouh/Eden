@@ -16,7 +16,7 @@ target_include_directories(glfw PRIVATE
                           "${eden_SOURCE_DIR}/src"
                           "${eden_BINARY_DIR}/src")
 
-target_link_libraries(eden PUBLIC glm spdlog glfw)
+target_link_libraries(eden PUBLIC glm spdlog glfw nlohmann_json)
 
 # Precompiled headers
 target_precompile_headers(eden

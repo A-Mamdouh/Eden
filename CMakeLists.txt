@@ -36,6 +36,7 @@ endif()
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/extern/glfw")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/extern/glfw/include")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/extern/glm")
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/extern/json")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/extern/spdlog")
 # Add src
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src")

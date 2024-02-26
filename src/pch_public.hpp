@@ -27,3 +27,6 @@
 // GLM Constants
 #include <glm/ext/scalar_constants.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+// JSON
+#include <nlohmann/json.hpp>
