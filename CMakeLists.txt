@@ -5,7 +5,7 @@ project(
     Eden
     VERSION 0.0.1
     DESCRIPTION "Simple Graphics Engine"
-    LANGUAGES CXX
+    LANGUAGES CXX C
 )
 
 set(eden_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
