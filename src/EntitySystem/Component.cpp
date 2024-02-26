@@ -1,7 +1,7 @@
 #include <Eden/EntitySystem/Component.hpp>
 
 
-namespace Eden { namespace Entities {
+namespace Eden { namespace Entities { namespace Components {
 
     const size_t Component::S_GetType() {
         return std::hash<std::string>{}("Component");
@@ -23,4 +23,4 @@ namespace Eden { namespace Entities {
         return other_type == GetType();
     }
 
-}}
+}}}
