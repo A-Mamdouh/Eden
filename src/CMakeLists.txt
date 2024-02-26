@@ -1,5 +1,19 @@
-set(eden_sources Eden.cpp glad.c)
-set(eden_headers "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/include/Eden/Eden.hpp>" glad/glad.h KHR/khrplatform.h)
+set(eden_sources
+  Eden.cpp
+  glad.c
+  EntitySystem/Component.cpp
+  EntitySystem/Entity.cpp
+)
+
+set(eden_HEADER_LOC "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/include>")
+
+set(eden_headers
+  glad/glad.h
+  KHR/khrplatform.h
+  "${eden_HEADER_LOC}/Eden/Eden.hpp"
+  "${eden_HEADER_LOC}/Eden/EntitySystem/Component.hpp"
+  "${eden_HEADER_LOC}/Eden/EntitySystem/Entity.hpp"
+)
 
 add_library(eden ${eden_headers} ${eden_sources})
 
