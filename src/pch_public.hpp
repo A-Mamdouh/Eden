@@ -1,22 +1,20 @@
 #pragma once
 
-#include <thread>
+#include <exception>
+#include <string>
+#include <vector>
 #include <unordered_map>
+#include <algorithm>
+#include <thread>
 #include <mutex>
 #include <memory>
 #include <utility>
-
-#include <fstream>
-#include <sstream>
-#include <string>
-#include <variant>
 #include <optional>
-// GLAD/GLFW
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 // spd
 #include <spdlog/spdlog.h>
 // GLM
+#define GLM_FORCE_RADIANS
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
@@ -27,6 +25,3 @@
 // GLM Constants
 #include <glm/ext/scalar_constants.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
-// JSON
-#include <nlohmann/json.hpp>
