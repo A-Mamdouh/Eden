@@ -1,17 +1,8 @@
 #pragma once
 
-#include <exception>
 #include <string>
 #include <vector>
-#include <unordered_map>
-#include <algorithm>
-#include <thread>
-#include <mutex>
 #include <memory>
-#include <utility>
-#include <optional>
-// spd
-#include <spdlog/spdlog.h>
 // GLM
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE

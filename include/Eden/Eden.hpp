@@ -1,4 +1,11 @@
 #pragma once
 
-extern int main(void);
-extern std::string GetName(void);
+#include <Eden/Core.hpp>
+// Rendering
+#include <Eden/Rendering/RenderingAPI.hpp>
+#include <Eden/Rendering/Window.hpp>
+#include <Eden/Rendering/Renderer.hpp>
+// Entity System
+#include <Eden/EntitySystem/Scene.hpp>
+
+extern void Run(void);
