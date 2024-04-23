@@ -5,15 +5,12 @@
 #include <mutex>
 #include <memory>
 #include <utility>
-
+#include <ranges>
 #include <fstream>
 #include <sstream>
 #include <string>
 #include <variant>
 #include <optional>
-// GLAD/GLFW
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 // spd
 #include <spdlog/spdlog.h>
 // GLM

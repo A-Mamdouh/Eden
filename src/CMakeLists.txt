@@ -1,5 +1,15 @@
-set(eden_sources Eden.cpp glad.c)
-set(eden_headers "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/include/Eden/Eden.hpp>" glad/glad.h KHR/khrplatform.h)
+list(APPEND eden_sources Eden.cpp)
+list(APPEND eden_headers "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/include/Eden/Eden.hpp>")
+
+# Add Core
+list(APPEND eden_headers
+  "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/include/Eden/Core/Core.hpp>"
+  "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/include/Eden/Core/Entity.hpp>"
+)
+
+list(APPEND eden_sources
+  "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/src/Core/Entity.cpp>"
+)
 
 add_library(eden ${eden_headers} ${eden_sources})
 
@@ -10,11 +20,12 @@ find_package(OpenGL REQUIRED)
 target_include_directories(eden PUBLIC
                           "${eden_SOURCE_DIR}/include"
                           "${CMAKE_CURRENT_SOURCE_DIR}"
-                          "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
+                          "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
+                        )
 
-target_include_directories(glfw PRIVATE
-                          "${eden_SOURCE_DIR}/src"
-                          "${eden_BINARY_DIR}/src")
+# target_include_directories(glfw PRIVATE
+#                           "${eden_SOURCE_DIR}/src"
+#                           "${eden_BINARY_DIR}/src")
 
 target_link_libraries(eden PUBLIC glm spdlog glfw)
 
@@ -38,10 +49,10 @@ if(result)
   set_target_properties(eden PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
 endif()
 
-# C/++ options
-set_target_properties(eden
-PROPERTIES
-    CXX_CLANG_TIDY ON
-    CXX_CPPCHECK ON
-    CXX_CPPLINT ON
-)
+# # C/++ options
+# set_target_properties(eden
+# PROPERTIES
+#     CXX_CLANG_TIDY ON
+#     CXX_CPPCHECK ON
+#     CXX_CPPLINT ON
+# )
