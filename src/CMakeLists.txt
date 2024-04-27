@@ -3,12 +3,27 @@ list(APPEND eden_headers "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/include/Eden/Eden
 
 # Add Core
 list(APPEND eden_headers
+"$<BUILD_INTERFACE:${eden_SOURCE_DIR}/include/Eden/Core/Component.hpp>"
   "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/include/Eden/Core/Core.hpp>"
   "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/include/Eden/Core/Entity.hpp>"
+  "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/include/Eden/Core/Transform.hpp>"
 )
 
 list(APPEND eden_sources
-  "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/src/Core/Entity.cpp>"
+"$<BUILD_INTERFACE:${eden_SOURCE_DIR}/src/Core/Component.cpp>"
+"$<BUILD_INTERFACE:${eden_SOURCE_DIR}/src/Core/Entity.cpp>"
+  "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/src/Core/Transform.cpp>"
+)
+
+# Add Scene System
+list(APPEND eden_headers
+  "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/include/Eden/Scene/SceneComponents.hpp>"
+  "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/include/Eden/Scene/SceneSystem.hpp>"
+)
+
+list(APPEND eden_sources
+  "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/src/Scene/SceneComponents.cpp>"
+  "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/src/Scene/SceneSystem.cpp>"
 )
 
 add_library(eden ${eden_headers} ${eden_sources})
