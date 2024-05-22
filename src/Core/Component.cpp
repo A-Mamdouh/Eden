@@ -3,6 +3,5 @@
 
 namespace Eden
 {
-
     Component::Component(Entity *ownerParam) : owner{ownerParam} {}
 }

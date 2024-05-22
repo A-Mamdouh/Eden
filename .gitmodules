@@ -13,3 +13,6 @@
 [submodule "extern/raylib-cpp"]
 	path = extern/raylib-cpp
 	url = https://github.com/RobLoach/raylib-cpp
+[submodule "extern/assimp"]
+	path = extern/assimp
+	url = https://github.com/assimp/assimp

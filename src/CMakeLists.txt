@@ -5,6 +5,7 @@ list(APPEND eden_headers "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/include/Eden/Eden
 list(APPEND eden_headers
 "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/include/Eden/Core/Component.hpp>"
   "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/include/Eden/Core/Core.hpp>"
+  "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/include/Eden/Core/AppConfig.hpp>"
   "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/include/Eden/Core/Entity.hpp>"
   "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/include/Eden/Core/Transform.hpp>"
 )
@@ -26,6 +27,24 @@ list(APPEND eden_sources
   "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/src/Scene/SceneSystem.cpp>"
 )
 
+# Add Rendering System
+list(APPEND eden_headers
+  "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/include/Eden/Rendering/Window.hpp>"
+  "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/include/Eden/Rendering/Model.hpp>"
+  "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/include/Eden/Rendering/Mesh.hpp>"
+  "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/include/Eden/Rendering/Renderer.hpp>"
+  "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/include/Eden/Rendering/RenderingAPI.hpp>"
+)
+
+list(APPEND eden_sources
+  "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/src/Rendering/Window.cpp>"
+  "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/src/Rendering/Renderer.cpp>"
+  "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/src/Rendering/Backend/Raylib/Window.hpp>"
+  "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/src/Rendering/Backend/Raylib/Window.cpp>"
+  "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/src/Rendering/Backend/Raylib/Renderer.hpp>"
+  "$<BUILD_INTERFACE:${eden_SOURCE_DIR}/src/Rendering/Backend/Raylib/Renderer.cpp>"
+)
+
 add_library(eden ${eden_headers} ${eden_sources})
 
 # Find opengl library
@@ -38,16 +57,15 @@ target_include_directories(eden PUBLIC
                           "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
                         )
 
-# target_include_directories(glfw PRIVATE
-#                           "${eden_SOURCE_DIR}/src"
-#                           "${eden_BINARY_DIR}/src")
-
-target_link_libraries(eden PUBLIC glm spdlog glfw)
+target_link_libraries(eden PUBLIC glm assimp)
+target_link_libraries(eden PRIVATE glm spdlog raylib raylib_cpp)
 
 # Precompiled headers
 target_precompile_headers(eden
 PUBLIC
   "$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/pch_public.hpp>"
+PRIVATE
+  "$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/pch_private.hpp>"
 )
 
 # Set C++ standard
@@ -63,11 +81,3 @@ check_ipo_supported(RESULT result)
 if(result)
   set_target_properties(eden PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
 endif()
-
-# # C/++ options
-# set_target_properties(eden
-# PROPERTIES
-#     CXX_CLANG_TIDY ON
-#     CXX_CPPCHECK ON
-#     CXX_CPPLINT ON
-# )

@@ -33,10 +33,16 @@ if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
 endif()
 
 # Add external dependencies
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/extern/glfw")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/extern/glfw/include")
+set(BUILD_EXAMPLE_OLD ${BUILD_EXAMPLE})
+set(BUILD_EXAMPLE OFF)
+# add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/extern/glfw")
+# include_directories("${CMAKE_CURRENT_SOURCE_DIR}/extern/glfw/include")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/extern/glm")
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/extern/assimp")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/extern/spdlog")
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/extern/raylib")
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/extern/raylib-cpp")
+set(BUILD_EXAMPLE ${BUILD_EXAMPLE_OLD})
 # Add src
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src")
 
