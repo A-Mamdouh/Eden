@@ -3,5 +3,5 @@
 
 namespace Eden
 {
-    Component::Component(Entity *ownerParam) : owner{ownerParam} {}
+    Component::Component(std::optional<std::weak_ptr<Entity>> ownerParam) : owner{ownerParam} {}
 }

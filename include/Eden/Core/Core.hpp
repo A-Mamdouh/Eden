@@ -6,23 +6,31 @@
 #define NoMove(X)           \
     X(const X &&) = delete; \
     X operator=(const X &&) = delete;
-#define Unique(X) NoCopy(X) NoMove(X)
+#define UniqueResource(X) NoCopy(X) NoMove(X)
 
 namespace Eden
 {
 
     /// @brief This should be the base class for allocated resources of Eden.
-    /// very resource type has to extend this class for the Create function to work
+    /// every resource type has to extend this class for the Create function to work
+    template <typename T>
     struct EdenResource
     {
         const uint64_t id;
+        UniqueResource(EdenResource);
+        ~EdenResource() = default;
+
+        template <class... Args>
+        static auto New(Args &&...args) -> std::unique_ptr<T>
+        {
+            return std::make_unique<T>(std::forward<Args>(args)...);
+        }
+
+    protected:
         EdenResource()
             : id{CreateID()}
         {
         }
-
-        Unique(EdenResource);
-        ~EdenResource() = default;
 
     private:
         /// @brief Create ID @warning not thread safe

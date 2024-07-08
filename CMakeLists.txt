@@ -10,6 +10,7 @@ project(
 
 set(eden_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(eden_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
+set(BUILD_SHARED_LIBS FALSE) 
 
 # Define build options
 option(BUILD_EXAMPLE "build example project" ON)
@@ -38,6 +39,8 @@ set(BUILD_EXAMPLE OFF)
 # add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/extern/glfw")
 # include_directories("${CMAKE_CURRENT_SOURCE_DIR}/extern/glfw/include")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/extern/glm")
+set(ASSIMP_INSTALL OFF)
+set(ASSIMP_BUILD_ASSIMP_VIEW OFF)
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/extern/assimp")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/extern/spdlog")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/extern/raylib")

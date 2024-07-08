@@ -34,7 +34,7 @@ namespace Eden
                         }
 
                         ~Renderer() = default;
-                        Unique(Renderer);
+                        UniqueResource(Renderer);
 
                     private:
                         std::unique_ptr<Window> window;

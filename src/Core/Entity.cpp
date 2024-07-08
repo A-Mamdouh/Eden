@@ -4,7 +4,7 @@
 namespace Eden
 {
 
-    void Entity::AddComponent(Component *component)
+    void Entity::AddComponent(std::shared_ptr<Component> component)
     {
         // Early return if component already exists
         if (std::find_if(components.begin(), components.end(), [&component](auto other)

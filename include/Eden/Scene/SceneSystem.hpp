@@ -14,24 +14,24 @@ namespace Eden
         /// @param parent parent object to nest the object under
         /// @param localTransform Local transform from parent from parent
         /// @return pointer to newly created entity
-        Entity *CreateObject(Entity *parent, Transform localTransform);
+        std::shared_ptr<Entity> CreateObject(std::optional<std::weak_ptr<Entity>> parent, Transform localTransform);
 
         /// @copybrief Entity::CreateObject
         /// @param parent optional parent object to nest the object under
         /// @return pointer to newly created entity
-        Entity *CreateObject(Entity *parent);
+        std::shared_ptr<Entity> CreateObject(std::optional<std::weak_ptr<Entity>> parent);
 
         /// @copybrief Entity::CreateObject
         /// @param transform set local transform of the new object. Will be the world/model transform since the object is not nested
         /// @return pointer to newly created entity
-        Entity *CreateObject(Transform transform);
+        std::shared_ptr<Entity> CreateObject(Transform transform);
 
         /// @copybrief Entity::CreateObject
         /// @return pointer to newly created entity
-        Entity *CreateObject();
+        std::shared_ptr<Entity> CreateObject();
 
     private:
-        std::vector<std::unique_ptr<Entity>> entities;
-        std::vector<std::unique_ptr<SceneNodeComponent>> nodes;
+        std::vector<std::shared_ptr<Entity>> entities;
+        std::vector<std::shared_ptr<SceneNodeComponent>> nodes;
     };
 }
