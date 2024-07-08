@@ -32,7 +32,7 @@ namespace Eden
             static std::unique_ptr<Renderer> Create(Eden::AppConfig &config);
 
             virtual ~Renderer() = default;
-            Unique(Renderer);
+            UniqueResource(Renderer);
 
         protected:
             Renderer() = default;

@@ -2,19 +2,25 @@
 
 namespace Eden
 {
-    Entity *SceneSystem::CreateObject(Entity *parent, Transform localTransform)
+    std::shared_ptr<Entity> SceneSystem::CreateObject(std::optional<std::weak_ptr<Entity>> parent, Transform localTransform)
     {
         // Create new entity
-        entities.push_back(std::make_unique<Entity>());
-        auto newEntity = entities[entities.size() - 1].get();
+        // entities.push_back(Entity::New());
+        entities.push_back(std::make_shared<Entity>());
+        auto newEntity = entities.back();
         // Create scene graph node and populate its members
-        nodes.push_back(std::make_unique<SceneNodeComponent>(newEntity));
-        auto newNode = nodes[nodes.size() - 1].get();
+        // nodes.push_back(SceneNodeComponent::New(newEntity));
+        nodes.push_back(std::make_shared<SceneNodeComponent>(newEntity));
+        auto newNode = nodes.back();
         newNode->transform = localTransform;
-        if (parent != nullptr)
+        if (parent.has_value())
         {
-            auto parentNode = parent->GetComponent<SceneNodeComponent>();
-            newNode->parent = parentNode;
+            std::shared_ptr<Entity> lockedParent;
+            if (lockedParent = parent->lock())
+            {
+                auto parentNode = lockedParent->GetComponent<SceneNodeComponent>();
+                newNode->parent = parentNode;
+            }
         }
         // Register new component to the entity
         newEntity->AddComponent(newNode);
@@ -22,18 +28,18 @@ namespace Eden
         return newEntity;
     }
 
-    Entity *SceneSystem::CreateObject(Entity *parent)
+    std::shared_ptr<Entity> SceneSystem::CreateObject(std::optional<std::weak_ptr<Entity>> parent)
     {
         return CreateObject(parent, Transform());
     }
 
-    Entity *SceneSystem::CreateObject(Transform transform)
+    std::shared_ptr<Entity> SceneSystem::CreateObject(Transform transform)
     {
-        return CreateObject(nullptr, transform);
+        return CreateObject({}, transform);
     }
 
-    Entity *SceneSystem::CreateObject()
+    std::shared_ptr<Entity> SceneSystem::CreateObject()
     {
-        return CreateObject(nullptr, Transform());
+        return CreateObject({}, Transform());
     }
 }

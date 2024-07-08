@@ -42,7 +42,7 @@ namespace Eden
                         }
 
                         ~Window() = default;
-                        Unique(Window);
+                        UniqueResource(Window);
 
                         virtual void SetWidth(const unsigned int width) override
                         {

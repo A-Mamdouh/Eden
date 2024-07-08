@@ -23,7 +23,7 @@ namespace Eden
 
     namespace Rendering
     {
-        class Mesh : public EdenResource
+        class Mesh : public EdenResource<Mesh>
         {
         public:
             Mesh()
@@ -33,8 +33,8 @@ namespace Eden
             }
 
         private:
-            std::vector<Texture *> textures;
-            std::vector<Vertex> vertices;
+            std::vector<std::shared_ptr<Texture>> textures;
+            std::vector<std::shared_ptr<Vertex>> vertices;
             std::vector<unsigned int> indices;
         };
     }

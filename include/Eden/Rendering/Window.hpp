@@ -8,13 +8,13 @@ namespace Eden
 {
     namespace Rendering
     {
-        class Window
+        class Window : public EdenResource<Window>
         {
         public:
             static std::unique_ptr<Window> Create(Eden::AppConfig &config);
 
             virtual ~Window() = default;
-            Unique(Window);
+            UniqueResource(Window);
             const RenderingAPI GetAPI() { return api; };
             virtual void SetWidth(const unsigned int width) = 0;
             virtual void SetHeight(const unsigned int height) = 0;

@@ -14,7 +14,7 @@ namespace Eden
     public:
         Transform GetLocalTransform() const;
         glm::mat4 GetModelTransform() const;
-        SceneNodeComponent(Entity *owner);
+        SceneNodeComponent(std::optional<std::weak_ptr<Entity>> owner);
         virtual ~SceneNodeComponent() = default;
 
         /// @brief Set the local transform of a node
@@ -23,10 +23,10 @@ namespace Eden
 
         /// @brief Get the parent entity if exists
         /// @return parent entity if entity is nested, otherwise nullopt
-        std::optional<Entity*> GetParent();
+        std::optional<std::weak_ptr<Entity>> GetParent();
 
     private:
-        std::optional<SceneNodeComponent *> parent = std::nullopt;
+        std::optional<std::weak_ptr<SceneNodeComponent>> parent = std::nullopt;
         Transform transform = Transform{};
         friend SceneSystem;
     };

@@ -7,22 +7,27 @@
 namespace Eden
 {
 
-    class Entity : public EdenResource
+    class Entity : public EdenResource<Entity>
     {
-        Unique(Entity);
+        UniqueResource(Entity);
 
     public:
         /// @brief Get the first instance of a component of a certain type
         /// @tparam ComponentType Type of component to look for
         /// @return returns the first component if any is found. Otherwise, returns std::nullopt
         template <class ComponentType>
-        // Asserting that ComponentType is an instance of Eden::Component
+        // Asserting that ComponentType inherits of Eden::Component
             requires std::is_base_of<Component, ComponentType>::value
-        const std::optional<ComponentType *> GetComponent()
+        const std::optional<std::shared_ptr<ComponentType>> GetComponent()
         {
-            for(const auto component : components)
-                if(IsInstance<const ComponentType>(component))
-                    return static_cast<ComponentType*>(component);
+            for (const auto component : components)
+            {
+                auto result = std::dynamic_pointer_cast<ComponentType>(component);
+                if (result != nullptr)
+                {
+                    return result;
+                }
+            }
             return std::nullopt;
         }
 
@@ -30,11 +35,16 @@ namespace Eden
         template <class ComponentType>
         // Asserting that ComponentType is an instance of Eden::Component
             requires std::is_base_of<Component, ComponentType>::value
-        const std::optional<ComponentType *> GetComponent() const
+        const std::optional<std::shared_ptr<ComponentType>> GetComponent() const
         {
             for (auto component : components)
-                if (IsInstance<ComponentType>(component))
-                    return static_cast<ComponentType *>(component);
+            {
+                auto result = std::dynamic_pointer_cast<ComponentType>(component);
+                if (result != nullptr)
+                {
+                    return result;
+                }
+            }
             return std::nullopt;
         }
 
@@ -44,13 +54,14 @@ namespace Eden
         template <class ComponentType>
         // Asserting that ComponentType is an instance of Eden::Component
             requires std::is_base_of<Component, ComponentType>::value
-        std::vector<ComponentType *> GetComponents()
+        std::vector<std::shared_ptr<ComponentType>> GetComponents()
         {
-            auto result = components | std::ranges::views::filter([](auto component)
-                                                                  { return IsInstance<ComponentType>(component); }) |
-                          std::ranges::views::transform([](auto component)
-                                                        { return static_cast<ComponentType *>(component); });
-            return std::vector<ComponentType *>(result.begin(), result.end());
+            // Filter components
+            auto result = components | std::ranges::views::transform([](auto component)
+                                                                     { return std::dynamic_pointer_cast<ComponentType>(component); }) |
+                          std::ranges::views::filter([](auto component)
+                                                     { return component != nullptr; });
+            return std::vector<std::shared_ptr<Component>>(result.begin(), result.end());
         }
 
         /// @brief the local transform describes the positional information relative to the object's parent in the scene
@@ -66,11 +77,11 @@ namespace Eden
 
         /// @brief Add a component to the current entity. Nothing happens if the component already exists
         /// @param component component to add to the current entity
-        void AddComponent(Component *component);
+        void AddComponent(std::shared_ptr<Component> component);
 
     private:
         uint32_t id;
-        std::vector<Component *> components;
+        std::vector<std::shared_ptr<Component>> components;
     };
 
 }
