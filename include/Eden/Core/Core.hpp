@@ -68,7 +68,7 @@ namespace Eden
         return dynamic_cast<Type*>(rawPtr) != nullptr;
     }
 
-        /// @copydoc IsInstance
+    /// @copydoc IsInstance
     template <typename Type, typename InstanceType>
     inline bool IsInstance(const InstanceType &instance)
     {

@@ -57,7 +57,7 @@ if("${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}")
     endif()
     # Testing
     if(BUILD_TESTING)
-        add_subdirectory(extern/gtest)
+        add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/extern/googletest")
         add_subdirectory(test)
     endif()
 endif()
