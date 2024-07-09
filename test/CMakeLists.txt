@@ -1,3 +1,5 @@
 add_executable(EdenTest ${CMAKE_CURRENT_SOURCE_DIR}/Main.cpp)
-target_link_libraries(EdenTest eden)
-target_link_libraries(EdenTest gtest)
+target_link_libraries(EdenTest PRIVATE eden)
+target_link_libraries(EdenTest PRIVATE GTest::gtest_main)
+include(GoogleTest)
+gtest_discover_tests(EdenTest)
