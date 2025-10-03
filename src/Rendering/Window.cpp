@@ -1,5 +1,4 @@
 #include <Eden/Rendering/Window.hpp>
-#include "Backend/Raylib/Window.hpp"
 
 namespace Eden
 {
@@ -11,9 +10,9 @@ namespace Eden
         {
             switch (config.rendererConfig.api)
             {
-            case (RenderingAPI::Raylib):
+            case (RenderingAPI::Vulkan):
             {
-                return Backend::Raylib::Window::Create(config);
+                throw std::runtime_error("Vulkan window is not implemented yet");
             }
             default:
                 throw std::runtime_error("Unknown rendering API");

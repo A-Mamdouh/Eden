@@ -1,5 +1,4 @@
 #include <Eden/Rendering/Renderer.hpp>
-#include "Backend/Raylib/Renderer.hpp"
 
 namespace Eden
 {
@@ -10,9 +9,9 @@ namespace Eden
         {
             switch (config.rendererConfig.api)
             {
-            case (RenderingAPI::Raylib):
+            case (RenderingAPI::Vulkan):
             {
-                return Backend::Raylib::Renderer::Create(config);
+                throw std::runtime_error("Vulkan renderer is not implemented yet");
             }
             default:
                 throw std::runtime_error("Unknown rendering API");

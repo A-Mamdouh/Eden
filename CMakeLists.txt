@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.21...3.28)
+cmake_minimum_required(VERSION 3.21)
 
 # Define project
 project(
@@ -8,57 +8,88 @@ project(
     LANGUAGES CXX
 )
 
-set(eden_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-set(eden_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
 set(BUILD_SHARED_LIBS FALSE) 
-
-# Define build options
-option(BUILD_EXAMPLE "build example project" ON)
-
-### Require out-of-source builds
-file(TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt" LOC_PATH)
-if(EXISTS "${LOC_PATH}")
-    message(FATAL_ERROR "You cannot build in a source directory (or any directory with a CMakeLists.txt file). Please make a build subdirectory. Feel free to remove CMakeCache.txt and CMakeFiles.")
-endif()
 
 ## Install submodules
 find_package(Git REQUIRED)
 
-if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
-    execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
-                    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-                    RESULT_VARIABLE GIT_SUBMOD_RESULT)
-    if(NOT GIT_SUBMOD_RESULT EQUAL "0")
-        message(FATAL_ERROR "git submodule update --init --recursive failed with ${GIT_SUBMOD_RESULT}, please checkout submodules")
+### dependencies
+
+# spdlog
+find_package(spdlog QUIET)
+if (NOT spdlog_FOUND)
+    if (NOT DEFINED SPDLOG_VERSION)
+        set(SPDLOG_VERSION v1.15.3)
     endif()
+    include(FetchContent)
+    FetchContent_Declare(
+        spdlog
+        GIT_REPOSITORY https://github.com/gabime/spdlog.git
+        GIT_TAG ${SPDLOG_VERSION}
+    )
+    FetchContent_MakeAvailable(spdlog)
 endif()
 
-# Add external dependencies
-set(BUILD_EXAMPLE_OLD ${BUILD_EXAMPLE})
-set(BUILD_EXAMPLE OFF)
-# add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/extern/glfw")
-# include_directories("${CMAKE_CURRENT_SOURCE_DIR}/extern/glfw/include")
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/extern/glm")
-set(ASSIMP_INSTALL OFF)
-set(ASSIMP_BUILD_ASSIMP_VIEW OFF)
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/extern/assimp")
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/extern/spdlog")
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/extern/raylib")
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/extern/raylib-cpp")
-set(BUILD_EXAMPLE ${BUILD_EXAMPLE_OLD})
-# Add src
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src")
-
-# Build optional modules
-if("${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}")
-    # Build example project
-    if(BUILD_EXAMPLE)
-        add_subdirectory(example)
+# glfw
+find_package(glfw QUIET)
+if (NOT glfw_FOUND)
+    if (NOT DEFINED GLFW_VERSION)
+        set(GLFW_VERSION 3.4)
     endif()
-    # Testing
-    if(BUILD_TESTING)
-        include(CTest)
-        add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/extern/googletest")
-        add_subdirectory(test)
-    endif()
+    include(FetchContent)
+    FetchContent_Declare(
+        glfw
+        GIT_REPOSITORY https://github.com/glfw/glfw.git
+        GIT_TAG ${GLFW_VERSION}
+    )
+    FetchContent_MakeAvailable(glfw)
 endif()
+
+# vulkan
+find_package(Vulkan QUIET)
+if (NOT Vulkan_FOUND)
+    if (NOT DEFINED VULKAN_VERSION)
+        set(VULKAN_VERSION v1.4.328)
+    endif()
+    include(FetchContent)
+    FetchContent_Declare(
+        Vulkan
+        GIT_REPOSITORY https://github.com/KhronosGroup/Vulkan-Headers.git
+        GIT_TAG ${VULKAN_VERSION}
+    )
+    FetchContent_MakeAvailable(Vulkan)
+endif()
+
+# assimp
+find_package(assimp QUIET)
+if (NOT assimp_FOUND)
+    if (NOT DEFINED ASSIMP_VERSION)
+        set(ASSIMP_VERSION v6.0.2)
+    endif()
+    include(FetchContent)
+    FetchContent_Declare(
+        assimp
+        GIT_REPOSITORY https://github.com/assimp/assimp.git
+        GIT_TAG ${ASSIMP_VERSION}
+    )
+    FetchContent_MakeAvailable(assimp)
+endif()
+
+
+# gtest
+find_package(GTest QUIET)
+if (NOT GTest_FOUND)
+    if (NOT DEFINED GTEST_VERSION)
+        set(GTEST_VERSION v1.17.0)
+    endif()
+    include(FetchContent)
+    FetchContent_Declare(
+        GTest
+        GIT_REPOSITORY https://github.com/google/googletest.git
+        GIT_TAG ${GTEST_VERSION}
+    )
+    FetchContent_MakeAvailable(GTest)
+endif()
+
+add_subdirectory(src)
+add_subdirectory(example)

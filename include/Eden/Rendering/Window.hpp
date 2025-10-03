@@ -3,6 +3,7 @@
 #include <Eden/Core/Core.hpp>
 #include <Eden/Core/AppConfig.hpp>
 #include "RenderingAPI.hpp"
+#include <Eden/Rendering/Colors.hpp>
 
 namespace Eden
 {
@@ -24,6 +25,9 @@ namespace Eden
             virtual bool IsFullscreen() const = 0;
             virtual bool ShouldClose() const = 0;
             virtual void PollEvents() = 0;
+            virtual void ClearBackground(Rendering::Colors::Color color) = 0;
+            virtual void BeginDrawing() = 0;
+            virtual void EndDrawing() = 0;
 
         protected:
             Window(Eden::AppConfig &config);

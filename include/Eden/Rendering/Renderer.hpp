@@ -4,7 +4,6 @@
 #include <Eden/Core/AppConfig.hpp>
 #include "Window.hpp"
 #include "Model.hpp"
-#include "RenderingAPI.hpp"
 
 namespace Eden
 {

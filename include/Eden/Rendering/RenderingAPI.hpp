@@ -6,7 +6,7 @@ namespace Eden
     {
         enum class RenderingAPI
         {
-            Raylib = 0,
+            Vulkan
         };
     }
 }
